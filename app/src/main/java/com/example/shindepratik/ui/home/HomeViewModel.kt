@@ -21,7 +21,7 @@ class HomeViewModel @Inject constructor(
         .cachedIn(viewModelScope)
         .flowOn(Dispatchers.IO)
 
-    val unknown = pagingRepository
+    val getUnknown = pagingRepository
         .getUnknown()
         .cachedIn(viewModelScope)
         .flowOn(Dispatchers.IO)

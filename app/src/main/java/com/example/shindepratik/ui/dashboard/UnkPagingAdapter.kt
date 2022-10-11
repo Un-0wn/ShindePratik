@@ -1,5 +1,6 @@
 package com.example.shindepratik.ui.dashboard
 
+import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -33,12 +34,11 @@ class UnkPagingAdapter :
             Log.wtf("UserAdapter", user.color)
 
             binding.apply {
-
+                cardView.setCardBackgroundColor(Color.parseColor(user.color))
                 txt1.text = user.name
                 txt2.text = user.year.toString()
             }
         }
-
     }
 
     companion object {

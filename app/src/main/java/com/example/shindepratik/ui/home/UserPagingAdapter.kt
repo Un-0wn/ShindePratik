@@ -7,6 +7,7 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.shindepratik.databinding.RvItemBinding
 import com.example.shindepratik.ends.Dto
 import com.example.shindepratik.ends.UserDto
@@ -32,7 +33,7 @@ class UserPagingAdapter :
 
         fun bind(user: UserDto) {
 
-            Log.wtf("UserAdapter", user.email)
+//            Log.wtf("UserAdapter", user.email)
 
             binding.apply {
 
@@ -40,8 +41,8 @@ class UserPagingAdapter :
                 txt2.text = user.last_name
                 Glide.with(itemView)
                     .asBitmap()
+                    .apply(RequestOptions.circleCropTransform())
                     .load(user.avatar)
-                    .centerCrop()
                     .into(userImg)
             }
         }

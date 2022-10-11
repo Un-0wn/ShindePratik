@@ -12,9 +12,9 @@ private const val DEFAULT_PAGE = 1
 
 class UnkownPgSource (
     private val ends: Ends
-) : PagingSource<Int, Unk>() {
+) : PagingSource<Int, UnkDto>() {
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Unk> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, UnkDto> {
 
         val position = params.key ?: DEFAULT_PAGE
 
@@ -23,7 +23,7 @@ class UnkownPgSource (
             val response = ends.getUnknownResponse(position)
 
             LoadResult.Page(
-                data = response,
+                data = response.data,
                 prevKey = if (position == DEFAULT_PAGE) null else position - 1,
                 nextKey = if (response.data.isEmpty()) null else position + 1
             )
@@ -35,7 +35,7 @@ class UnkownPgSource (
         }
     }
 
-    override fun getRefreshKey(state: PagingState<Int, Unk>): Int {
+    override fun getRefreshKey(state: PagingState<Int, UnkDto>): Int {
         return 1
     }
 

@@ -1,5 +1,6 @@
 package com.example.shindepratik.ui.dashboard
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -24,23 +25,34 @@ class DashboardFragment : Fragment() {
     private val viewModel: HomeViewModel by viewModels()
     private val binding get() = _binding!!
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        Log.wtf("LifeCycle","Dashboard:onAttach")
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Log.wtf("LifeCycle","Dashboard:onCreate")
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
+        Log.wtf("LifeCycle","Dashboard:onCreateView")
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.wtf("LifeCycle","Dashboard:onViewCreated")
         unkAdapter = UnkPagingAdapter()
         binding.apply {
             rvUser.adapter = unkAdapter
         }
-        lifecycleScope.launch {
-            viewModel.unknown.collectLatest {
+        lifecycleScope.launchWhenStarted {
+            viewModel.getUnknown.collectLatest {
 
                 Log.wtf("User", it.toString())
                 unkAdapter.submitData(it)
@@ -48,8 +60,19 @@ class DashboardFragment : Fragment() {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        Log.wtf("LifeCycle","Dashboard:onPause")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.wtf("LifeCycle","Dashboard:onResume")
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
+        Log.wtf("LifeCycle","Dashboard:onDestory")
         _binding = null
     }
 }

@@ -1,5 +1,6 @@
 package com.example.shindepratik.ui.home
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -25,11 +26,21 @@ class HomeFragment : Fragment() {
     private lateinit var userAdapter: UserPagingAdapter
     private val viewModel: HomeViewModel by viewModels()
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        Log.wtf("LifeCycle","Home:onAttach")
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Log.wtf("LifeCycle","Home:onCreate")
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        Log.wtf("LifeCycle","Home:onCreateView")
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
@@ -38,11 +49,13 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.wtf("LifeCycle","Home:onViewCreated")
+
         userAdapter = UserPagingAdapter()
         binding.apply {
             rvUser.adapter = userAdapter
         }
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenCreated {
             viewModel.user.collectLatest {
 
                 Log.wtf("User",it?.let { it.toString() })
@@ -50,8 +63,19 @@ class HomeFragment : Fragment() {
             }
         }
     }
+    override fun onPause() {
+        super.onPause()
+        Log.wtf("LifeCycle","Home:onPause")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.wtf("LifeCycle","Home:onResume")
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
+        Log.wtf("LifeCycle","Home:onDestory")
         _binding = null
     }
 }
