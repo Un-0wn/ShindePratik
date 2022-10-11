@@ -58,7 +58,7 @@ class HomeFragment : Fragment() {
         lifecycleScope.launchWhenCreated {
             viewModel.user.collectLatest {
 
-                Log.wtf("User",it?.let { it.toString() })
+                Log.wtf("User", it.toString())
                 userAdapter.submitData(it)
             }
         }
